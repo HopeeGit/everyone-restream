@@ -20,6 +20,12 @@ Moderators can set the percentage of !hops from chatters needed to kick streamer
 ### **!disablevoting !enablevoting**
 Moderators can !disablevoting and !enablevoting
 
+## **Installation**
+
+Install docker
+
+Clone repo
+
 ---
 
 ## **Configuration**
@@ -34,5 +40,5 @@ On your host machine forward port 1935
 
 ---
 
-## **Beuild & start the images**
-Start with "docker-compose up"
+## **Build & start the images**
+Start with command "docker-compose up"
