@@ -1,0 +1,70 @@
+daemon off;
+
+worker_processes auto;
+rtmp_auto_push on;
+
+error_log /dev/stdout info;
+
+events {
+}
+
+rtmp {
+    server {
+        listen 1935;
+        listen [::]:1935 ipv6only=on;
+        on_connect http://restreamer-backend:8081/connect;
+        on_publish_done http://restreamer-backend:8081/disconnect;
+
+        max_connections 10;
+
+        application live {
+            live on;
+            record off;
+
+            push rtmp://127.0.0.1/streamout;
+        }
+
+        application streamout {
+            live on;
+            record off;
+
+            push rtmp://live-iad.twitch.tv/app/STREAM_KEY_HERE;
+        }
+    }
+}
+
+http {
+    root /www/static;
+    sendfile off;
+    tcp_nopush on;
+    server_tokens off;
+    access_log /dev/stdout combined;
+
+    # Uncomment these lines to enable SSL.
+    # ssl_ciphers         HIGH:!aNULL:!MD5;
+    # ssl_protocols       TLSv1 TLSv1.1 TLSv1.2;
+    # ssl_session_cache   shared:SSL:10m;
+    # ssl_session_timeout 10m;
+
+    server {
+        listen 8080;
+
+        location /control {
+            rtmp_control all;
+        }
+
+        location /stat {
+            rtmp_stat all;
+            rtmp_stat_stylesheet stat.xsl;
+        }
+
+        location /stat.xsl {
+            root /www/static;
+        }
+
+        location /crossdomain.xml {
+            default_type text/xml;
+            expires 24h;
+        }
+    }
+}

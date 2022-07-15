@@ -1,0 +1,13 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# backend
+/backend/src/node_modules
+
+# bot
+/bot/src/node_modules
+
+# database
+/database/data
+
+# nginx default conf
+/nginx/conf/nginx.conf
